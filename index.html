@@ -1,0 +1,38 @@
+
+<html ng-app="custom-webapp-ui" lang="fa" style="background-color: Aqua">
+  <head>
+    <meta charset="UTF-8">
+    <!-- Load the Telegram Library -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!--Load the AngularJS Library-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+      //initialize the AngularJS stuff...
+      angular.module("custom-webapp-ui", []).controller('CustomUIController', function CustomUIController($scope) {
+        //init our slider values that we will display
+        $scope.foods = [
+                { name: "چلوکباب کوبیده تک سیخ + برنج + نان داغ + مخلفات ۱۶۰", value: 5 },
+                { name: "   چلوکباب کوبیده دو سیخ + برنج + نان داغ + مخلفات ۲۴۰", value: 5 },
+                { name: "   چلوجوجه کباب مخصوص + برنج + نان داغ + مخلفات ۱۸۵     ", value: 5 },
+                { name: "       چلوجوجه زعفرانی + برنج + نان داغ + مخلفات ۱۵۵ ", value: 5 } ,
+                { name: "  چلوجوجه جنگلی + برنج + نان داغ + مخلفات ۱۶۵   "   , value :5 }
+            ];
+        //initialize the button
+        const mainButton = window.Telegram.WebApp.MainButton;
+        mainButton.text = "Save Preferences";
+        mainButton.enable();
+        mainButton.show();
+        // and make it send the "foods" object (as JSON string) back to the bot
+        mainButton.onClick(function(){
+          window.Telegram.WebApp.sendData(JSON.stringify($scope.foods));
+        })
+      });
+    </script>
+  </head>
+  <body ng-controller="CustomUIController">
+    <div ng-repeat="food in foods">
+      <div style="width: 300px; font-size : 20px ; font-weight: bold;display: inline-block">{{food.name}} : {{food.value}}</div>
+      <input style="display: inline-block" type="range" min="1" max="10" ng-model="food.value" value="{{food.value}}">
+    </div>
+  </body>
+</html>
